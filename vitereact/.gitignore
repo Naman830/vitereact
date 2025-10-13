@@ -1,0 +1,45 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?cumulative_short_path() {
+  local root="${CUMULATIVE_PATH_ROOT:-$PWD}"
+
+  # Ensure root ends with a slash for prefix removal
+  [[ "${root: -1}" != "/" ]] && root="$root/"
+
+  # Remove root prefix from PWD, if possible
+  local rel="${PWD/#$root/}"
+
+  # Shorten root folder name to max 4 chars
+  local path="/$(basename "$root" | cut -c1-4)"
+
+  # Append relative path parts if any
+  if [[ -n $rel && $rel != "$PWD" ]]; then
+    IFS='/' read -ra parts <<< "$rel"
+    for part in "${parts[@]}"; do
+      [[ -n $part ]] && path+="/$part"
+    done
+  fi
+
+  printf "%s" "$path"
+}
